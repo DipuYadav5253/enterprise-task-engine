@@ -18,7 +18,7 @@
 
 ### 1. Main Operational Dashboard
 > *Real-time KPI tracking and the Automated Insights bar.*
-![Dashboard Screenshot](./screenshots/dashboard.png)
+![Dashboard Screenshot](/dashboard.png)
 
 ### 2. Live Search & Filtering
 > *HTMX-powered instant search results without page refresh.*
