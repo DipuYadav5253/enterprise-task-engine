@@ -1,0 +1,45 @@
+<script src="https://cdn.tailwindcss.com"></script>
+<body class="bg-slate-50 flex items-center justify-center min-h-screen p-6">
+  <div
+    class="bg-white p-8 rounded-3xl shadow-xl w-full max-w-lg border border-slate-100"
+  >
+    <h2 class="text-2xl font-black text-slate-800 mb-2">Initialize New Task</h2>
+    <p class="text-slate-500 mb-8 text-sm">
+      Add a new operational objective to the engine.
+    </p>
+
+    <form method="post" class="space-y-6">
+      {% csrf_token %} {% if form.errors %}
+      <div
+        class="bg-rose-50 border border-rose-200 text-rose-600 px-4 py-3 rounded-xl text-sm font-bold"
+      >
+        Please correct the errors below.
+      </div>
+      {% endif %} {% for field in form %}
+      <div>
+        <label class="block text-xs font-bold uppercase text-slate-500 mb-2"
+          >{{ field.label }}</label
+        >
+        {{ field }} {% if field.errors %}
+        <p class="text-rose-500 text-[10px] mt-1">{{ field.errors.0 }}</p>
+        {% endif %}
+      </div>
+      {% endfor %}
+
+      <div class="flex gap-4 pt-4">
+        <button
+          type="submit"
+          class="flex-1 bg-indigo-600 text-white font-bold py-3 rounded-xl hover:bg-indigo-700 transition shadow-lg shadow-indigo-200"
+        >
+          Create Task
+        </button>
+        <a
+          href="{% url 'dashboard' %}"
+          class="flex-1 bg-slate-100 text-slate-600 font-bold py-3 rounded-xl text-center"
+        >
+          Cancel
+        </a>
+      </div>
+    </form>
+  </div>
+</body>

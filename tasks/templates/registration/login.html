@@ -1,0 +1,24 @@
+<script src="https://cdn.tailwindcss.com"></script>
+<body class="bg-slate-900 flex items-center justify-center h-screen">
+    <div class="bg-white p-10 rounded-3xl shadow-2xl w-full max-w-md animate__animated animate__fadeInUp">
+        <div class="text-center mb-8">
+            <div class="w-16 h-16 bg-indigo-600 rounded-2xl mx-auto mb-4 flex items-center justify-center text-white text-3xl font-bold">E</div>
+            <h1 class="text-2xl font-black text-slate-800">Secure Access</h1>
+            <p class="text-slate-400">Enterprise Task Engine v1.0</p>
+        </div>
+        <form method="post" class="space-y-6">
+            {% csrf_token %}
+            <div>
+                <label class="block text-xs font-bold uppercase text-slate-500 mb-2">Username</label>
+                <input type="text" name="username" class="w-full border-2 border-slate-100 rounded-xl px-4 py-3 focus:border-indigo-600 outline-none transition">
+            </div>
+            <div>
+                <label class="block text-xs font-bold uppercase text-slate-500 mb-2">Password</label>
+                <input type="password" name="password" class="w-full border-2 border-slate-100 rounded-xl px-4 py-3 focus:border-indigo-600 outline-none transition">
+            </div>
+            <button type="submit" class="w-full bg-indigo-600 text-white font-bold py-4 rounded-xl hover:bg-indigo-700 transform hover:-translate-y-1 transition-all shadow-lg shadow-indigo-200">
+                Authorize Session
+            </button>
+        </form>
+    </div>
+</body>

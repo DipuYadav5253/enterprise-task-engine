@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+</head>
+<body class="bg-[#0f172a] text-slate-200 min-h-screen font-sans">
+
+    <nav class="border-b border-slate-800 px-8 py-4 flex justify-between items-center bg-[#0f172a]/80 backdrop-blur-md sticky top-0 z-50">
+        <div class="flex items-center gap-2">
+            <div class="w-8 h-8 bg-indigo-500 rounded-lg flex items-center justify-center text-white font-bold">E</div>
+            <span class="text-xl font-bold tracking-tight text-white">Engine<span class="text-indigo-400">.Insight</span></span>
+        </div>
+        <a href="{% url 'dashboard' %}" class="text-sm font-medium hover:text-indigo-400 transition">← Back to Dashboard</a>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-8 py-12">
+        <div class="mb-12">
+            <h1 class="text-4xl font-black text-white mb-2 animate__animated animate__fadeInLeft">Strategic Intelligence</h1>
+            <p class="text-slate-400">Deep-dive analysis of task throughput and priority scaling.</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+            
+            <div class="bg-slate-900 border border-slate-800 p-8 rounded-3xl shadow-2xl animate__animated animate__fadeInUp">
+                <h3 class="text-slate-400 text-xs font-bold uppercase tracking-widest mb-6">Priority Distribution (L1 - L5)</h3>
+                <div class="h-[300px]">
+                    <canvas id="priorityChart"></canvas>
+                </div>
+            </div>
+
+            <div class="bg-slate-900 border border-slate-800 p-8 rounded-3xl shadow-2xl animate__animated animate__fadeInUp" style="animation-delay: 0.2s">
+                <h3 class="text-slate-400 text-xs font-bold uppercase tracking-widest mb-6">Completion Velocity</h3>
+                <div class="h-[300px] flex items-center justify-center relative">
+                    <canvas id="efficiencyChart"></canvas>
+                    <div class="absolute inset-0 flex flex-col items-center justify-center">
+                        <span class="text-5xl font-black text-white">{{ efficiency }}%</span>
+                        <span class="text-xs text-slate-500 font-bold uppercase">Efficiency</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl">
+            <div class="p-6 border-b border-slate-800 bg-slate-800/50">
+                <h3 class="font-bold">Raw Data Extract</h3>
+            </div>
+            <div class="p-6">
+                <table class="w-full text-left">
+                    <thead class="text-slate-500 text-xs uppercase">
+                        <tr>
+                            <th class="pb-4">Identification</th>
+                            <th class="pb-4 text-center">Priority</th>
+                            <th class="pb-4">Description Preview</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-sm text-slate-300 divide-y divide-slate-800">
+                        {% for task in tasks %}
+                        <tr>
+                            <td class="py-4 font-semibold text-white">{{ task.title }}</td>
+                            <td class="py-4 text-center">
+                                <span class="bg-indigo-500/10 text-indigo-400 px-3 py-1 rounded-full text-[10px] font-bold">LVL {{ task.priority }}</span>
+                            </td>
+                            <td class="py-4 italic text-slate-500">{{ task.description|truncatewords:8 }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Chart.js Configuration
+        const pCtx = document.getElementById('priorityChart').getContext('2d');
+        new Chart(pCtx, {
+            type: 'bar',
+            data: {
+                labels: ['L1', 'L2', 'L3', 'L4', 'L5'],
+                datasets: [{
+                    label: 'Tasks',
+                    data: {{ priority_counts|safe }},
+                    backgroundColor: '#6366f1',
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: { y: { grid: { color: '#1e293b' }, ticks: { color: '#94a3b8' } }, x: { ticks: { color: '#94a3b8' } } },
+                plugins: { legend: { display: false } }
+            }
+        });
+
+        const eCtx = document.getElementById('efficiencyChart').getContext('2d');
+        new Chart(eCtx, {
+            type: 'doughnut',
+            data: {
+                datasets: [{
+                    data: [{{ completed }}, {{ total }} - {{ completed }}],
+                    backgroundColor: ['#6366f1', '#1e293b'],
+                    borderWidth: 0,
+                    cutout: '85%'
+                }]
+            },
+            options: { responsive: true, maintainAspectRatio: false }
+        });
+    </script>
+</body>
+</html>
