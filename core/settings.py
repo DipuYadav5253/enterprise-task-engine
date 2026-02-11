@@ -25,7 +25,8 @@ SECRET_KEY = 'django-insecure-%ksl^q)4ybgyi1in$dr8uxzhkx6yg2xxv!8xxh%8&w%z8$-z$1
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# This allows both your local computer and your Render site to talk to the app
+ALLOWED_HOSTS = ['enterprise-task-engine.onrender.com', '127.0.0.1', 'localhost']
 
 
 # Application definition
