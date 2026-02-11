@@ -26,7 +26,7 @@
 
 ### 3. Advanced Analytics View
 > *Dark-themed data visualization using Chart.js.*
-![Analytics Screenshot](./screenshots/analytics.png)
+![Analytics Screenshot](/insight.png)
 
 ---
 
